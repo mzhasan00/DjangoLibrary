@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <style>
+        /* Classy Creamy Background */
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Blackish but not black Navbar */
+        .navbar {
+            background-color: #111;
+            padding: 10px 20px;
+            color: #fff;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .navbar-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Centered Container */
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        /* Stack of Name, Student ID, and Email */
+        .user-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Three buttons in a row */
+        .button-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button {
+            background-color: #111;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Blackish but not black Navbar with Buttons -->
+    <div class="navbar">
+        <a href="books" class="navbar-button">Books</a>
+        <a href="signout" class="navbar-button">Sign Out</a>
+    </div>
+
+    <!-- Centered Container with Content -->
+    <div class="content-container">
+        <!-- Stack of Name, Student ID, and Email -->
+        <div class="user-info">
+            <h1>Your Name</h1>
+            <p>Student ID: 123456</p>
+            <p>Email: example@example.com</p>
+        </div>
+
+        <!-- Three buttons in a row -->
+        <div class="button-row">
+            <a href="borrowed" class="button">Borrowed Books</a>
+            <a href="reserved" class="button">Reserved Books</a>
+            <a href ="wishlist" class="button">Wishlist</a>
+        </div>
+    </div>
+
+    {% block div %}
+    {% endblock %}
+</body>
+</html>

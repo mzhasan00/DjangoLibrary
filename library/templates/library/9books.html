@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Available Books</title>
+    <style>
+        /* Classy Creamy Background */
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Blackish but not black Navbar */
+        .navbar {
+            background-color: #111;
+            padding: 10px 20px;
+            color: #fff;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .navbar-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Heading */
+        .heading {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+        }
+
+        .search-input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Table */
+        .book-table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .book-table th, .book-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .book-table th {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        /* Alternate row background color */
+        .book-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Blackish but not black Navbar with Button -->
+    <div class="navbar">
+        <a href="profile" class="navbar-button">Profile</a>
+    </div>
+
+    <!-- Heading -->
+    <div class="heading">
+        <h1>All Available Books</h1>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search by Title, ISBN, Author, or Genre">
+        <button class="search-button">Search</button>
+    </div>
+
+    <!-- Table for Book List -->
+    <table class="book-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Publication Date</th>
+                <th>Genre</th>
+                <th>Availability</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in book_list %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.publication_date }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.available_copies }}</td>
+                    {% if book.available_copies %}
+                    <td>Reserve</td>
+                    {% else %}
+                    <td>Borrow</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

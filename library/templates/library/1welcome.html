@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+        /* Classic Blackish Background */
+        body {
+            background-color: #111;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Creamy-colored Div with Shadow */
+        .welcome-container {
+            background-color: #f5f5f5;
+            padding: 8px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* Welcome Message Styles */
+        .welcome-text {
+            font-size: 50px;
+            color: #333;
+        }
+
+        /* Button Styles */
+        .button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Horizontal Space and "Or" Styles */
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .or-text {
+            color: #666;
+            font-size: 20px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        
+        {% block body %}
+        <h1 class="welcome-text">Welcome to the Library</h1>
+        {% endblock %}
+        <div class="button-container">
+            <a href="register" class="button">Register</a>
+            <a href="/" class="button">|</a>
+            <a href="signup" class="button">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>
