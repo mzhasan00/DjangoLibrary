@@ -97,14 +97,19 @@
 
     <!-- Heading -->
     <div class="heading">
-        <h1>All Available Books</h1>
+        <h1>All Books That you can Borrow or Reserve</h1>
     </div>
 
     <!-- Search Bar -->
-    <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Search by Title, ISBN, Author, or Genre">
-        <button class="search-button">Search</button>
-    </div>
+    <form method="get" class="search-bar">
+        <input type="text" class="search-input" name="q" value="{{ search_query }}" placeholder="Search by title">
+        <button class="search-button" type="submit">Search</button>
+
+        {% if search_query %}
+            <a href="books" class="reset-button">Reset</a>
+        {% endif %}
+    </form>
+
 
     <!-- Table for Book List -->
     <table class="book-table">
@@ -116,23 +121,40 @@
                 <th>Publication Date</th>
                 <th>Genre</th>
                 <th>Availability</th>
+                <th>Available Copies</th>
                 <th>Action</th>
+                <th>Add to Wishlist</th>
             </tr>
         </thead>
         <tbody>
-            {% for book in book_list %}
+            {% for book in books %}
                 <tr>
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
-                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.ISBN }}</td>
                     <td>{{ book.publication_date }}</td>
                     <td>{{ book.genre }}</td>
-                    <td>{{ book.available_copies }}</td>
-                    {% if book.available_copies %}
-                    <td>Reserve</td>
-                    {% else %}
-                    <td>Borrow</td>
-                    {% endif %}
+                    <td>{{ book.availability_status }}</td>
+                    <td>{{ book.num_books_available }}</td>
+                    <td>
+                        {% if book.availability_status %}
+                            <form action="borrowed" method="post">
+                                {% csrf_token %}
+                                <button type="submit">Borrow</button>
+                            </form>
+                        {% else %}
+                            <form action="reserved" method="post">
+                                {% csrf_token %}
+                                <button type="submit">Reserve</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="wishlist" method="post">
+                            {% csrf_token %}
+                            <button type="submit">+</button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

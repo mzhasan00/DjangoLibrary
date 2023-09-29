@@ -2,10 +2,38 @@
 
 {% block body %}
 <h1>Register</h1>
-<form action="register", method="post">
+{% if message %}
+    <div>{{ message }}</div>
+{% endif %}
+<form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+    <table>
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.first_name.label_tag }}</td>
+            <td>{{ form.first_name }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.last_name.label_tag }}</td>
+            <td>{{ form.last_name }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password1.label_tag }}</td>
+            <td>{{ form.password1 }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password2.label_tag }}</td>
+            <td>{{ form.password2 }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.email.label_tag }}</td>
+            <td>{{ form.email }}</td>
+        </tr>
+    </table>
+    <button type="submit">Register</button>
 </form>
 
 {% endblock %}

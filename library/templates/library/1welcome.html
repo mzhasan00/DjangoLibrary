@@ -68,6 +68,9 @@
         
         {% block body %}
         <h1 class="welcome-text">Welcome to the Library</h1>
+        {% if message %}
+        <div>{{ message }}</div>
+        {% endif %}
         {% endblock %}
         <div class="button-container">
             <a href="register" class="button">Register</a>
