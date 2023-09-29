@@ -1,4 +1,5 @@
-from datetime import timezone
+from datetime import timezone, date, timedelta
+import datetime
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -6,8 +7,10 @@ from .forms import RegistrationForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Book, Borrowed  # Import your Book model
+from .models import Book, Borrowed, Reserved, Wishlist
 from django.db.models import Q  # Import Q for complex queries
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -22,9 +25,10 @@ def register(request):
             user = form.save()
             return HttpResponseRedirect(reverse("signup"))
             messages.success(request, "Registration successful!")
-    else:
-        form = RegistrationForm()
-        messages.error(request, "Registration failed. Please correct the errors.")  # Error message
+        else:
+            form = RegistrationForm()
+            return render(request, 'library/2register.html', {'form': form, 'message': "Invalid Information"})
+    form = RegistrationForm()
     return render(request, 'library/2register.html', {'form': form})
 
 def signup(request):
@@ -62,31 +66,75 @@ def signout(request):
                 "message": "Logged Out"
             })
 
+# def borrowed(request):
+#     if not request.user.is_authenticated:
+#         return HttpResponseRedirect(reverse("signup"))
+    
+#     user = request.user  # Get the currently logged-in user
+#     borrowed_items = Borrowed.objects.filter(user=user)
+
+#     context = {
+#         'borrowed_items': borrowed_items,
+#     }
+#     return render(request, 'library/6borrowed.html', context)
+
+
+
+def numOfDays(date1, date2):
+  #check which date is greater to avoid days output in -ve number
+    if date2 > date1:  
+        return (date2-date1).days
+    else:
+        return (date1-date2).days
+
+
 def borrowed(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("signup"))
     
+    user = request.user
+    borrowed_items = Borrowed.objects.filter(user=user)
 
-    if request.method == "POST":
-        book = Book.objects.get()
-        borrow_date = timezone.now()  # You can use any method to get the current date
-        borrowed_book = Borrowed(book=book, user=request.user, borrow_date=borrow_date)
-        borrowed_book.save()
-        book.availability_status -= 1
-        book.save()
-        return HttpResponseRedirect(reverse("books"))
+    for item in borrowed_items:
 
-    return render(request, 'library/6borrowed.html')
+        day1 = datetime.datetime.now()
+        day2 = item.borrow_date
+        date1 = date(day1.year, day1.month, day1.day)
+        date2 = date(day2.year, day2.month, day2.day)
+        item.fine = numOfDays(date1, date2) * 2
+        item.return_date = item.borrow_date+timedelta(days=30)
+
+    context = {
+        'borrowed_items': borrowed_items
+    }
+    return render(request, 'library/6borrowed.html', context)
+
 
 def reserved(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("signup"))
-    return render(request, 'library/7reserved.html')
+    
+    user = request.user  # Get the currently logged-in user
+    reserved_items = Reserved.objects.filter(user=user)
+    
+    context = {
+        'reserved_items': reserved_items
+    }
+
+    return render(request, 'library/7reserved.html', context)
 
 def wishlist(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("signup"))
-    return render(request, 'library/8wishlist.html')
+    
+    user = request.user  # Get the currently logged-in user
+    wished_items = Wishlist.objects.filter(user=user)
+    
+    context = {
+        'wished_items': wished_items
+    }
+
+    return render(request, 'library/8wishlist.html', context)
 
 def books(request):
     if not request.user.is_authenticated:
@@ -102,4 +150,41 @@ def books(request):
 
 
 
+def borrow(request, id):
 
+    if request.method == "POST":
+        bookx = Book.objects.get(pk=id)
+        userx = request.user
+        borrowed = Borrowed(book=bookx, user=userx, borrow_date=datetime.datetime.now())
+        bookx.num_books_available -= 1
+        bookx.save()
+        borrowed.save()
+    return HttpResponseRedirect(reverse("books"))
+
+
+def reserve(request, id):
+
+    if request.method == "POST":
+        bookx = Book.objects.get(pk=id)
+        userx = request.user
+        reserved = Reserved(book=bookx, user=userx, borrow_date=datetime.datetime.now())
+        reserved.save()
+    return HttpResponseRedirect(reverse("books"))
+
+def wish(request, id):
+
+    if request.method == "POST":
+        bookx = Book.objects.get(pk=id)
+        userx = request.user
+        wished = Wishlist(book=bookx, user=userx, borrow_date=datetime.datetime.now())
+        wished.save()
+    return HttpResponseRedirect(reverse("books"))
+
+
+def return_book(request, id):
+    item = Borrowed.objects.get(pk = id).delete()
+    return HttpResponseRedirect(reverse("borrowed"))
+
+def remove_reserve(request, id):
+    item = Borrowed.objects.get(pk = id).delete()
+    return HttpResponseRedirect(reverse("reserved"))

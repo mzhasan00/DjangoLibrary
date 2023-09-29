@@ -66,6 +66,19 @@
             cursor: pointer;
             text-decoration: none;
         }
+
+        .borrowed-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .book-title {
+            font-weight: bold;
+        }
+        .fine-amount {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -92,7 +105,11 @@
         </div>
     </div>
 
-    {% block div %}
-    {% endblock %}
+    <div class="content-container">
+        {% block div %}
+        {% endblock %}
+    </div>
+
+    
 </body>
 </html>

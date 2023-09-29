@@ -134,23 +134,27 @@
                     <td>{{ book.ISBN }}</td>
                     <td>{{ book.publication_date }}</td>
                     <td>{{ book.genre }}</td>
-                    <td>{{ book.availability_status }}</td>
+                    {%if book.num_books_available%}
+                    <td>Available</td>
+                    {%else%}
+                    <td>Not Available</td>
+                    {%endif%}
                     <td>{{ book.num_books_available }}</td>
                     <td>
                         {% if book.availability_status %}
-                            <form action="borrowed" method="post">
+                            <form action="{%  url 'borrow' id=book.id  %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit">Borrow</button>
                             </form>
                         {% else %}
-                            <form action="reserved" method="post">
+                            <form action="{%  url 'reserve' id=book.id  %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit">Reserve</button>
                             </form>
                         {% endif %}
                     </td>
                     <td>
-                        <form action="wishlist" method="post">
+                        <form action="{%  url 'wish' id=book.id  %}" method="post">
                             {% csrf_token %}
                             <button type="submit">+</button>
                         </form>

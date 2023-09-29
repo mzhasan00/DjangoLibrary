@@ -21,3 +21,21 @@ class Borrowed(models.Model):
 
     def __str__(self):
         return f"{self.user.username} borrowed {self.book.title} on {self.borrow_date}"
+    
+
+class Reserved(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    borrow_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.user.username} borrowed {self.book.title} on {self.borrow_date}"
+    
+
+class Wishlist(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    borrow_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.user.username} borrowed {self.book.title} on {self.borrow_date}"

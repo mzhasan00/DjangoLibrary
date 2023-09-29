@@ -3,6 +3,13 @@
 
 {% block div %}
 <div>
-    <h1>Wishlist</h1>
+    <h1>Your Wished Items</h1>
+    <ul>
+        {% for item in wished_items %}
+            <li>{{ item.book.title }} - Wished on {{ item.borrow_date }}</li>
+        {% empty %}
+            <li>You haven't wished any items.</li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

@@ -1,7 +1,17 @@
 {% extends 'library/4profile.html' %}
 
 {% block div %}
-<div>
-    <h1>Borrowed</h1>
-</div>
+<h1>Your Borrowed Items</h1>
+{% for item in borrowed_items %}
+    <div class="borrowed-item">
+        <p class="book-title">{{ item.book.title }}</p>
+        <p>Borrow Date: {{ item.borrow_date }}</p>
+        <p>Return Date: {{ item.return_date }}</p>
+        <p class="fine-amount">Fine: ${{ item.fine }}</p>
+        <a href="{% url 'return_book' item.id %}">Return</a>
+    </div>
+{% empty %}
+    <p>You haven't borrowed any items yet.</p>
+{% endfor %}
+
 {% endblock %}
