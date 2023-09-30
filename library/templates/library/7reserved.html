@@ -5,17 +5,16 @@
 <div>
     <h1>Your Reserved Items</h1>
 
-{% for item in borrowed_items %}
+{% for item in reserved_items %}
     <div class="borrowed-item">
         <p class="book-title">{{ item.book.title }}</p>
-        <p>Reserve Date: {{ item.borrow_date }}</p>
-        Availability: 
+        
             {%if item.book.num_books_available%}
-            <p>{{item.book.num_books_available}} copies are available now</p>
+            <p>Availability: {{item.book.num_books_available}} copies are available now</p>
             {%else%}
-            <p>Not Available</p>
+            <p>Availability: Not Available</p>
             {%endif%}
-        <a href="{% url 'remove_reserve' item.id %}">Return</a>
+        <a href="{% url 'remove_reserve' item.id %}">Remove</a>
     </div>
 {% empty %}
     <p>You haven't reserved any items.</p>

@@ -98,6 +98,7 @@
     <!-- Heading -->
     <div class="heading">
         <h1>All Books That you can Borrow or Reserve</h1>
+        <small>N.B.: You will be charged 2 taka for each day after the valid duration (30 days) of borrowing is reached</small>
     </div>
 
     <!-- Search Bar -->
@@ -120,7 +121,6 @@
                 <th>ISBN</th>
                 <th>Publication Date</th>
                 <th>Genre</th>
-                <th>Availability</th>
                 <th>Available Copies</th>
                 <th>Action</th>
                 <th>Add to Wishlist</th>
@@ -135,13 +135,13 @@
                     <td>{{ book.publication_date }}</td>
                     <td>{{ book.genre }}</td>
                     {%if book.num_books_available%}
-                    <td>Available</td>
-                    {%else%}
-                    <td>Not Available</td>
-                    {%endif%}
                     <td>{{ book.num_books_available }}</td>
+                    {%else%}
+                    <td>Out of Stock</td>
+                    {%endif%}
+                   
                     <td>
-                        {% if book.availability_status %}
+                        {%if book.num_books_available%}
                             <form action="{%  url 'borrow' id=book.id  %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit">Borrow</button>

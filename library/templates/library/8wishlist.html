@@ -2,14 +2,13 @@
 
 
 {% block div %}
-<div>
-    <h1>Your Wished Items</h1>
-    <ul>
-        {% for item in wished_items %}
-            <li>{{ item.book.title }} - Wished on {{ item.borrow_date }}</li>
-        {% empty %}
-            <li>You haven't wished any items.</li>
-        {% endfor %}
-    </ul>
-</div>
+<h1>Your Wishlisted Items</h1>
+{% for item in wished_items %}
+    <div class="borrowed-item">
+        <div class="book-title">{{ item.book.title }} <a href="{% url 'remove_wish' item.id %}">Remove</a></div>
+        
+    </div>
+{% empty %}
+    <p>You haven't wish any item.</p>
+{% endfor %}
 {% endblock %}

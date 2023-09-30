@@ -7,7 +7,7 @@
         <p class="book-title">{{ item.book.title }}</p>
         <p>Borrow Date: {{ item.borrow_date }}</p>
         <p>Return Date: {{ item.return_date }}</p>
-        <p class="fine-amount">Fine: ${{ item.fine }}</p>
+        <p class="fine-amount">Fine: {{ item.fine }} taka</p>
         <a href="{% url 'return_book' item.id %}">Return</a>
     </div>
 {% empty %}

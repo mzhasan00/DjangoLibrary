@@ -66,17 +66,6 @@ def signout(request):
                 "message": "Logged Out"
             })
 
-# def borrowed(request):
-#     if not request.user.is_authenticated:
-#         return HttpResponseRedirect(reverse("signup"))
-    
-#     user = request.user  # Get the currently logged-in user
-#     borrowed_items = Borrowed.objects.filter(user=user)
-
-#     context = {
-#         'borrowed_items': borrowed_items,
-#     }
-#     return render(request, 'library/6borrowed.html', context)
 
 
 
@@ -182,9 +171,17 @@ def wish(request, id):
 
 
 def return_book(request, id):
-    item = Borrowed.objects.get(pk = id).delete()
+    item = Borrowed.objects.get(pk = id)
+    bookx = Book.objects.get(pk=item.book.id)
+    bookx.num_books_available += 1
+    bookx.save()
+    item.delete()
     return HttpResponseRedirect(reverse("borrowed"))
 
 def remove_reserve(request, id):
-    item = Borrowed.objects.get(pk = id).delete()
+    item = Reserved.objects.get(pk = id).delete()
     return HttpResponseRedirect(reverse("reserved"))
+
+def remove_wish(request, id):
+    item = Wishlist.objects.get(pk = id).delete()
+    return HttpResponseRedirect(reverse("wishlist"))
