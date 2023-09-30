@@ -17,6 +17,4 @@ urlpatterns = [
     path("return_book/<int:id>", views.return_book, name="return_book"),
     path("remove_reserve/<int:id>", views.remove_reserve, name="remove_reserve"),
     path("remove_wish/<int:id>", views.remove_wish, name="remove_wish")
-
-
 ]

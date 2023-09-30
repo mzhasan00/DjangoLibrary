@@ -12,7 +12,14 @@ from django.db.models import Q  # Import Q for complex queries
 from django.contrib.auth.decorators import login_required
 
 
-# Create your views here.
+
+
+
+
+
+
+
+# Welcome:
 
 def welcome(request):
     return render(request, 'library/1welcome.html')
@@ -51,6 +58,17 @@ def signup(request):
             })
     return render(request, 'library/3signup.html')
 
+
+
+
+
+
+
+
+
+
+
+# Profile
 def profile(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("signup"))
@@ -65,7 +83,6 @@ def signout(request):
     return render(request, "library/1welcome.html", {
                 "message": "Logged Out"
             })
-
 
 
 
@@ -125,6 +142,20 @@ def wishlist(request):
 
     return render(request, 'library/8wishlist.html', context)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Book
 def books(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("signup"))
@@ -138,7 +169,6 @@ def books(request):
     return render(request, 'library/9books.html', {'books': books})
 
 
-
 def borrow(request, id):
 
     if request.method == "POST":
@@ -149,7 +179,6 @@ def borrow(request, id):
         bookx.save()
         borrowed.save()
     return HttpResponseRedirect(reverse("books"))
-
 
 def reserve(request, id):
 
@@ -170,6 +199,14 @@ def wish(request, id):
     return HttpResponseRedirect(reverse("books"))
 
 
+
+
+
+
+
+
+
+# Return
 def return_book(request, id):
     item = Borrowed.objects.get(pk = id)
     bookx = Book.objects.get(pk=item.book.id)
@@ -185,3 +222,41 @@ def remove_reserve(request, id):
 def remove_wish(request, id):
     item = Wishlist.objects.get(pk = id).delete()
     return HttpResponseRedirect(reverse("wishlist"))
+
+
+
+"""
+
+welcome: Renders the welcome page for the library web application.
+
+register: Handles user registration. If the request method is POST and the registration form is valid, it creates a new user and redirects to the signup page with a success message. Otherwise, it displays the registration form with an error message.
+
+signup: Handles user login. If the request method is POST and the provided credentials are valid, it logs in the user and redirects to the profile page. If the credentials are invalid, it displays the login page with an error message.
+
+profile: Displays the user's profile page. Redirects to the signup page if the user is not authenticated.
+
+signout: Logs out the user and redirects to the welcome page. Redirects to the welcome page with a message if the user is not authenticated.
+
+numOfDays: Helper function for borrowed. Calculates the number of days between two dates
+
+borrowed: Displays the list of books borrowed by the user. Calculates fines for overdue books and displays return dates.
+
+reserved: Displays the list of books reserved by the user.
+
+wishlist: Displays the list of books in the user's wishlist.
+
+books: Displays a list of books. Supports searching for books based on a query parameter.
+
+borrow: Handles the borrowing of a book. Decreases the available count of the book and records the borrowing transaction.
+
+reserve: Handles reserving a book. Records the reservation transaction.
+
+wish: Handles adding a book to the user's wishlist.
+
+return_book: Handles returning a borrowed book. Increases the available count of the book and deletes the borrowing record.
+
+remove_reserve: Handles removing a book from the reserved list.
+
+remove_wish: Handles removing a book from the wishlist.
+
+"""
